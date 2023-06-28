@@ -43,7 +43,8 @@ const handler = NextAuth({
         return false
       }
     },
-  }
+  },
+  secret:"34rtr"
 })
 
 export { handler as GET, handler as POST }
