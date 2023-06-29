@@ -28,7 +28,7 @@ const Nav = () => {
           height={30}
           className='object-contain'
         /> */}
-        <p className='logo_text'>Prompt Hive</p>
+        <p className='logo_text'>Creative Prompts</p>
       </Link>
 
       {/* Desktop Navigation */}

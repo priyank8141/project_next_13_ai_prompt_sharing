@@ -51,19 +51,6 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
             </p> */}
           </div>
         </div>
-
-        <div className="copy_btn" onClick={handleCopy}>
-          <Image
-            src={
-              copied === post.prompt
-                ? "/assets/icons/tick.svg"
-                : "/assets/icons/copy.svg"
-            }
-            alt={copied === post.prompt ? "tick_icon" : "copy_icon"}
-            width={12}
-            height={12}
-          />
-        </div>
       </div>
 
       <p className="my-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
@@ -73,20 +60,35 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
       >
         {post.tag}
       </p>
-      {console.log("post",post)}
-      {post?.link && (
-        <Link href={post?.link ? post.link : "not found"} className="mt-10">
-          <span className="text-blue-500 hover:underline focus:outline-none focus:underline inline-flex gap-1">
-            GPT Chat
+      <div class="flex items-center space-x-1 gap-3">
+        <div onClick={handleCopy} className="mt-5 cursor-pointer">
+          <Image
+            src={
+              copied === post.prompt
+                ? "/assets/icons/tick.svg"
+                : "/assets/icons/copy.svg"
+            }
+            alt={copied === post.prompt ? "tick_icon" : "copy_icon"}
+            width={20}
+            height={20}
+          />
+        </div>
+
+        {post?.link && (
+          <Link
+            href={post?.link ? post.link : "not found"}
+            className="mt-5 cursor-pointer"
+            target="_blank"
+          >
             <Image
               src="/assets/icons/external.svg"
-              alt="copy_icon"
-              width={13}
-              height={13}
+              alt="external_icon"
+              width={20}
+              height={20}
             />
-          </span>
-        </Link>
-      )}
+          </Link>
+        )}
+      </div>
 
       {session?.user.id === post.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">

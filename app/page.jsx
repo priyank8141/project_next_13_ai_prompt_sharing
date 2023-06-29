@@ -7,7 +7,7 @@ const Home = () => (
       <span className="blue_gradient text-center"> AI-Powered Prompts</span>
     </h1>
     <p className="desc text-center">
-      Discover a world of endless possibilities through the magic of Prompt Hive
+      Discover a world of endless possibilities through the magic of
       prompts
     </p>
     <Feed />
