@@ -28,7 +28,8 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   const fetchPosts = async () => {
-    const response = await fetch("/api/prompt", {
+    const timestamp = new Date().getTime();
+    const response = await fetch(`/api/prompt?timestamp=${timestamp}`, {
       headers: {
         "Cache-Control": "no-cache",
         "Pragma": "no-cache",
