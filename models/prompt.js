@@ -15,8 +15,12 @@ const PromptSchema = new Schema({
   },
   link: {
     type: String,
-    required:[false]
-  }
+    required: [false]
+  },
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  }],
 });
 
 const Prompt = models.Prompt || model('Prompt', PromptSchema);

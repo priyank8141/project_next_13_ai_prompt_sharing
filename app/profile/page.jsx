@@ -12,14 +12,14 @@ const MyProfile = () => {
 
   const [myPosts, setMyPosts] = useState([]);
 
+  const fetchPosts = async () => {
+    const response = await fetch(`/api/users/${session?.user.id}/posts`);
+    const data = await response.json();
+
+    setMyPosts(data);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(`/api/users/${session?.user.id}/posts`);
-      const data = await response.json();
-
-      setMyPosts(data);
-    };
-
     if (session?.user.id) fetchPosts();
   }, [session?.user.id]);
 
@@ -49,11 +49,12 @@ const MyProfile = () => {
 
   return (
     <Profile
-      name='My'
-      desc='Welcome to your personalized profile page. Share your exceptional prompts and inspire others with the power of your imagination'
+      name="My"
+      desc="Welcome to your personalized profile page. Share your exceptional prompts and inspire others with the power of your imagination"
       data={myPosts}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
+      fetchPosts={fetchPosts}
     />
   );
 };

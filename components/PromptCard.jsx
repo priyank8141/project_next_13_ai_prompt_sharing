@@ -6,7 +6,13 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
-const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
+const PromptCard = ({
+  post,
+  handleEdit,
+  handleDelete,
+  handleTagClick,
+  fetchPosts,
+}) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
@@ -14,8 +20,6 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   const [copied, setCopied] = useState("");
 
   const handleProfileClick = () => {
-    console.log(post);
-
     if (post.creator._id === session?.user.id) return router.push("/profile");
 
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
@@ -25,6 +29,24 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
     setCopied(post.prompt);
     navigator.clipboard.writeText(post.prompt);
     setTimeout(() => setCopied(false), 3000);
+  };
+
+  const handleLike = async () => {
+    try {
+      const response = await fetch(`/api/prompt/like`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          userId: session?.user.id,
+          promptId: post._id,
+        }),
+      });
+
+      if (response.ok) {
+        fetchPosts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,9 +68,6 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
             <h3 className="font-satoshi font-semibold text-gray-900">
               {post.creator.username}
             </h3>
-            {/* <p className='font-inter text-sm text-gray-500'>
-              {post.creator.email}
-            </p> */}
           </div>
         </div>
       </div>
@@ -61,6 +80,22 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         {post.tag}
       </p>
       <div class="flex items-center space-x-1 gap-3">
+        <div onClick={handleLike} className="mt-5 cursor-pointer flex gap-2">
+          <Image
+            src={
+              post.likes.includes(session?.user.id)
+                ? "/assets/icons/heartFill.svg"
+                : "/assets/icons/heart.svg"
+            }
+            alt={
+              post.likes.includes(session?.user.id) ? "tick_icon" : "copy_icon"
+            }
+            width={20}
+            height={20}
+          />
+          <p className="text-blue">{post.likes.length}</p>
+        </div>
+
         <div onClick={handleCopy} className="mt-5 cursor-pointer">
           <Image
             src={
