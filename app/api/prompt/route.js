@@ -8,7 +8,7 @@ export const GET = async (request) => {
         const prompts = await Prompt.find({}).sort({ likes: -1 }).populate('creator')
 
         const response = new Response(JSON.stringify(prompts), { status: 200 })
-        response.setHeader('Cache-Control', 'no-store');
+        response.headers.set('Cache-Control', 'no-store');
         return response
     } catch (error) {
         return new Response("Failed to fetch all prompts", { status: 500 })
