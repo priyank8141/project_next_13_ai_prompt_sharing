@@ -33,7 +33,13 @@ export const PATCH = async (request) => {
                 { $pull: { likes: { $in: [user._id] } } },
                 { new: true },
             );
-            return new Response("Like updated successfully", { status: 200 });
+            return new Response("Like updated successfully", {
+                status: 200,
+                headers: {
+                    'Cache-Control': 'no-store',
+                    'Pragma': 'no-cache',
+                },
+            });
 
         } else {
             const existingProm = await Prompt.findByIdAndUpdate(
@@ -41,7 +47,13 @@ export const PATCH = async (request) => {
                 { $addToSet: { likes: user } },
                 { new: true },
             );
-            return new Response("Like updated successfully", { status: 200 });
+            return new Response("Like updated successfully", {
+                status: 200,
+                headers: {
+                    'Cache-Control': 'no-store',
+                    'Pragma': 'no-cache',
+                },
+            });
         }
 
     } catch (error) {
