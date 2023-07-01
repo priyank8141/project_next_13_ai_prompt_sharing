@@ -26,20 +26,20 @@ export const PATCH = async (request) => {
             return new Response("User id required", { status: 404 });
         }
 
-        console.log(existingPrompt)
 
         if (existingPrompt.likes.includes(userId)) {
             const existingProm = await Prompt.findByIdAndUpdate(
                 prompId,
                 { $pull: { likes: { $in: [user._id] } } },
+                { new: true },
             );
             return new Response("Like updated successfully", { status: 200 });
-            
+
         } else {
-            console.log("no likes")
             const existingProm = await Prompt.findByIdAndUpdate(
                 prompId,
                 { $addToSet: { likes: user } },
+                { new: true },
             );
             return new Response("Like updated successfully", { status: 200 });
         }
