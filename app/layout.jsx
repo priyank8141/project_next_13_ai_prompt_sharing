@@ -2,6 +2,7 @@ import "@styles/globals.css";
 
 import Nav from "@components/Nav";
 import Provider from "@components/Provider";
+import ToastProvider from "@components/ToasterProvider";
 
 export const metadata = {
   title: "Creative Prompts",
@@ -9,20 +10,21 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }) => (
-  <html lang='en'>
-    <head>
-    </head>
+  <html lang="en">
+    <head></head>
     <body>
-      <Provider>
-        <div className='main'>
-          <div className='gradient' />
-        </div>
+      <ToastProvider>
+        <Provider>
+          <div className="main">
+            <div className="gradient" />
+          </div>
 
-        <main className='app'>
-          <Nav />
-          {children}
-        </main>
-      </Provider>
+          <main className="app">
+            <Nav />
+            {children}
+          </main>
+        </Provider>
+      </ToastProvider>
     </body>
   </html>
 );

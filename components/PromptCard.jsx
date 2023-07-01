@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const PromptCard = ({
   post,
@@ -32,6 +33,11 @@ const PromptCard = ({
   };
 
   const handleLike = async () => {
+    if (!session?.user.id) {
+      toast.info("You need to login first");
+      return;
+    }
+
     try {
       const response = await fetch(`/api/prompt/like`, {
         method: "PATCH",
@@ -43,6 +49,7 @@ const PromptCard = ({
 
       if (response.ok) {
         fetchPosts();
+        toast.success("Like Updated Successfully");
       }
     } catch (error) {
       console.log(error);
@@ -79,7 +86,7 @@ const PromptCard = ({
       >
         {post.tag}
       </p>
-      <div class="flex items-center space-x-1 gap-3">
+      <div className="flex items-center space-x-1 gap-3">
         <div onClick={handleLike} className="mt-5 cursor-pointer flex gap-2">
           <Image
             src={
