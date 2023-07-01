@@ -97,8 +97,8 @@ const PromptCard = ({
             alt={
               post.likes.includes(session?.user.id) ? "tick_icon" : "copy_icon"
             }
-            width={20}
-            height={20}
+            width={25}
+            height={25}
           />
           <p className="text-blue">{post.likes.length}</p>
         </div>
