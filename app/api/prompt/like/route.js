@@ -2,7 +2,7 @@ import Prompt from "@models/prompt";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
 
-export const PATCH = async (request) => {
+export const PATCH = async (request, res) => {
     console.log("first")
     try {
         await connectToDB();
@@ -33,13 +33,10 @@ export const PATCH = async (request) => {
                 { $pull: { likes: { $in: [user._id] } } },
                 { new: true },
             );
-            return new Response("Like updated successfully", {
-                status: 200,
-                headers: {
-                    'Cache-Control': 'no-store',
-                    'Pragma': 'no-cache',
-                },
-            });
+            res.setHeader('Cache-Control', 'no-store');
+            res.setHeader('Pragma', 'no-cache');
+
+            return res.status(200).send('Like updated successfully');
 
         } else {
             const existingProm = await Prompt.findByIdAndUpdate(
@@ -47,13 +44,10 @@ export const PATCH = async (request) => {
                 { $addToSet: { likes: user } },
                 { new: true },
             );
-            return new Response("Like updated successfully", {
-                status: 200,
-                headers: {
-                    'Cache-Control': 'no-store',
-                    'Pragma': 'no-cache',
-                },
-            });
+            res.setHeader('Cache-Control', 'no-store');
+            res.setHeader('Pragma', 'no-cache');
+
+            return res.status(200).send('Like updated successfully');
         }
 
     } catch (error) {
