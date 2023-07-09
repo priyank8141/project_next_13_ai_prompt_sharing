@@ -9,7 +9,13 @@ export const GET = async (request) => {
         const timestamp = new Date().getTime();
 
         const response = new Response(JSON.stringify({prompts,timestamp}), { status: 200 })
-        response.headers.set('Cache-Control', 'no-store');
+        // Add a unique identifier to the URL to force a cache-busting reload
+        const url = new URL(request.url);
+        url.searchParams.set("t", Date.now());
+        response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.headers.set("Pragma", "no-cache");
+        response.headers.set("Expires", "0");
+        response.headers.set("Location", url.toString());
 
         return response
     } catch (error) {
